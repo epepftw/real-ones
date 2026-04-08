@@ -1,0 +1,7 @@
+---
+title: "URBAN VOID"
+code: "001"
+status: "live"
+cover: "/images/random/retro-shot.jpg"
+description: "A 6-MONTH DOCUMENTATION OF ABANDONED INDUSTRIAL SPACES ACROSS THREE CITIES. FILM, SOUND, AND PRINT CONVERGE INTO A SINGLE ARCHIVE OF DECAY AND RESILIENCE."
+---

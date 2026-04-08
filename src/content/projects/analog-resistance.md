@@ -1,0 +1,7 @@
+---
+title: "ANALOG RESISTANCE"
+code: "003"
+status: "archive"
+cover: "/images/random/retro-img-of-jr.jpg"
+description: "LETTERPRESS REVIVAL SERIES. 47 UNIQUE PRINTS PRODUCED ON A 1967 HEIDELBERG PRESS USING ORIGINAL LEAD TYPE AND HAND-MIXED INK ON RAW CANVAS."
+---

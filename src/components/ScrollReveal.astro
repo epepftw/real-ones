@@ -1,0 +1,266 @@
+---
+---
+
+<!-- Scroll-triggered reveal animations -->
+<script>
+  function initScrollReveal() {
+    // Reveal elements on scroll
+    const revealEls = document.querySelectorAll('[data-reveal]');
+    const scrambleEls = document.querySelectorAll('[data-scramble-scroll]');
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target as HTMLElement;
+          const delay = parseInt(el.dataset.revealDelay || '0');
+          setTimeout(() => {
+            el.classList.add('revealed');
+          }, delay);
+          revealObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    // Scramble text on scroll into view
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*/_\\|<>';
+    const scrambleObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target as HTMLElement;
+          const target = el.dataset.scrambleScroll || el.textContent || '';
+          const duration = parseInt(el.dataset.scrambleDuration || '1200');
+          const steps = 18;
+          const interval = duration / steps;
+          let step = 0;
+
+          el.textContent = target.split('').map(c =>
+            c === ' ' || c === '\n' ? c : chars[Math.floor(Math.random() * chars.length)]
+          ).join('');
+
+          const timer = setInterval(() => {
+            step++;
+            const progress = step / steps;
+            el.textContent = target.split('').map((c, i) => {
+              if (c === ' ' || c === '\n') return c;
+              if (i / target.length < progress) return c;
+              return chars[Math.floor(Math.random() * chars.length)];
+            }).join('');
+            if (step >= steps) {
+              clearInterval(timer);
+              el.textContent = target;
+            }
+          }, interval);
+
+          scrambleObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    scrambleEls.forEach(el => scrambleObserver.observe(el));
+
+    // Counter animation for stat numbers
+    const counterEls = document.querySelectorAll('[data-count-up]');
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target as HTMLElement;
+          const target = parseInt(el.dataset.countUp || '0');
+          if (isNaN(target)) {
+            el.textContent = el.dataset.countUp || '';
+            counterObserver.unobserve(el);
+            return;
+          }
+          const duration = 1500;
+          const steps = 30;
+          const interval = duration / steps;
+          let step = 0;
+
+          const timer = setInterval(() => {
+            step++;
+            const progress = step / steps;
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = String(Math.floor(target * eased)).padStart(2, '0');
+            if (step >= steps) {
+              clearInterval(timer);
+              el.textContent = String(target).padStart(2, '0');
+            }
+          }, interval);
+
+          counterObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    counterEls.forEach(el => counterObserver.observe(el));
+  }
+
+  // ===== SCROLL STACKING / ZOOM SECTIONS =====
+  function initScrollStack() {
+    const stackSections = document.querySelectorAll('[data-scroll-stack]');
+    stackSections.forEach(section => {
+      const items = section.querySelectorAll('[data-stack-item]') as NodeListOf<HTMLElement>;
+      if (!items.length) return;
+
+      // Pin each card via sticky and apply zoom/rotate transforms on scroll
+      function onScroll() {
+        const viewH = window.innerHeight;
+
+        items.forEach((item, i) => {
+          const itemRect = item.getBoundingClientRect();
+          const itemCenter = itemRect.top + itemRect.height / 2;
+          // How far through the viewport this item is (0 = top, 1 = bottom)
+          const progress = Math.max(0, Math.min(1, 1 - (itemCenter - viewH * 0.2) / (viewH * 0.8)));
+
+          // Scale: starts small, zooms to full when centered
+          const scale = 0.92 + progress * 0.08;
+          // Slight rotation that resolves to 0
+          const rotate = (1 - progress) * (i % 2 === 0 ? -2 : 2);
+
+          item.style.transform = `scale(${scale}) rotate(${rotate}deg)`;
+        });
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    });
+  }
+
+  // ===== PARALLAX ZOOM SECTIONS =====
+  function initParallaxZoom() {
+    const zoomEls = document.querySelectorAll('[data-zoom-scroll]') as NodeListOf<HTMLElement>;
+    if (!zoomEls.length) return;
+
+    function onScroll() {
+      const viewH = window.innerHeight;
+      zoomEls.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        const center = rect.top + rect.height / 2;
+        const progress = Math.max(0, Math.min(1, 1 - (center - viewH * 0.3) / (viewH * 0.7)));
+        const direction = el.dataset.zoomScroll || 'in';
+
+        let scale;
+        if (direction === 'out') {
+          scale = 1.2 - progress * 0.2;
+        } else {
+          scale = 0.8 + progress * 0.2;
+        }
+
+        el.style.transform = `scale(${scale})`;
+      });
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  // Run on initial load
+  initScrollReveal();
+  initScrollStack();
+  initParallaxZoom();
+
+  // Re-run after view transitions
+  document.addEventListener('astro:after-swap', () => {
+    initScrollReveal();
+    initScrollStack();
+    initParallaxZoom();
+  });
+</script>
+
+<style is:global>
+  /* ===== REVEAL ANIMATIONS ===== */
+  [data-reveal] {
+    opacity: 0;
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  [data-reveal].revealed {
+    opacity: 1;
+  }
+
+  /* Slide up */
+  [data-reveal="up"] {
+    transform: translateY(60px);
+  }
+  [data-reveal="up"].revealed {
+    transform: translateY(0);
+  }
+
+  /* Slide left */
+  [data-reveal="left"] {
+    transform: translateX(80px);
+  }
+  [data-reveal="left"].revealed {
+    transform: translateX(0);
+  }
+
+  /* Slide right */
+  [data-reveal="right"] {
+    transform: translateX(-80px);
+  }
+  [data-reveal="right"].revealed {
+    transform: translateX(0);
+  }
+
+  /* Scale up */
+  [data-reveal="scale"] {
+    transform: scale(0.85);
+  }
+  [data-reveal="scale"].revealed {
+    transform: scale(1);
+  }
+
+  /* Clip reveal (bottom to top) */
+  [data-reveal="clip"] {
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
+  }
+  [data-reveal="clip"].revealed {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+
+  /* Blur in */
+  [data-reveal="blur"] {
+    filter: blur(15px);
+    transition: opacity 0.8s ease, filter 0.8s ease, transform 0.8s ease;
+  }
+  [data-reveal="blur"].revealed {
+    filter: blur(0);
+  }
+
+  /* Stagger children */
+  [data-reveal-stagger] > * {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  [data-reveal-stagger].revealed > * {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  [data-reveal-stagger].revealed > *:nth-child(1) { transition-delay: 0ms; }
+  [data-reveal-stagger].revealed > *:nth-child(2) { transition-delay: 80ms; }
+  [data-reveal-stagger].revealed > *:nth-child(3) { transition-delay: 160ms; }
+  [data-reveal-stagger].revealed > *:nth-child(4) { transition-delay: 240ms; }
+  [data-reveal-stagger].revealed > *:nth-child(5) { transition-delay: 320ms; }
+  [data-reveal-stagger].revealed > *:nth-child(6) { transition-delay: 400ms; }
+  [data-reveal-stagger].revealed > *:nth-child(7) { transition-delay: 480ms; }
+  [data-reveal-stagger].revealed > *:nth-child(8) { transition-delay: 560ms; }
+
+  /* ===== VIEW TRANSITION OVERRIDES ===== */
+  ::view-transition-old(root) {
+    animation: 0.3s ease-out both fade-out;
+  }
+  ::view-transition-new(root) {
+    animation: 0.3s ease-in both fade-in;
+  }
+  @keyframes fade-out {
+    from { opacity: 1; filter: blur(0); }
+    to { opacity: 0; filter: blur(4px); }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; filter: blur(4px); }
+    to { opacity: 1; filter: blur(0); }
+  }
+</style>

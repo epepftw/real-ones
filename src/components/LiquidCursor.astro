@@ -1,0 +1,169 @@
+---
+---
+
+<!-- Custom cursor -->
+<div id="liquid-cursor"></div>
+<div id="liquid-blob"></div>
+
+<!-- SVG filter for liquid distortion on hover areas -->
+<svg class="fixed w-0 h-0" style="position:absolute;">
+  <defs>
+    <filter id="liquid-filter">
+      <feTurbulence
+        id="turb"
+        type="fractalNoise"
+        baseFrequency="0.01"
+        numOctaves="3"
+        result="noise"
+        seed="2"
+      />
+      <feDisplacementMap
+        in="SourceGraphic"
+        in2="noise"
+        scale="0"
+        xChannelSelector="R"
+        yChannelSelector="G"
+      />
+    </filter>
+  </defs>
+</svg>
+
+<script>
+  function initLiquidCursor() {
+    const cursor = document.getElementById('liquid-cursor');
+    const blob = document.getElementById('liquid-blob');
+    const turb = document.getElementById('turb') as SVGElement | null;
+    const displace = document.querySelector('#liquid-filter feDisplacementMap') as SVGElement | null;
+
+    let mouseX = -100, mouseY = -100;
+    let cursorX = -100, cursorY = -100;
+    let blobX = -100, blobY = -100;
+    let hasEntered = false;
+
+    // Hide cursor elements until mouse enters
+    if (cursor) cursor.style.opacity = '0';
+    if (blob) blob.style.opacity = '0';
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if (!hasEntered) {
+        hasEntered = true;
+        cursorX = mouseX;
+        cursorY = mouseY;
+        blobX = mouseX;
+        blobY = mouseY;
+        if (cursor) cursor.style.opacity = '1';
+        if (blob) blob.style.opacity = '1';
+      }
+    });
+
+    // Hide cursor when mouse leaves window
+    document.addEventListener('mouseleave', () => {
+      hasEntered = false;
+      if (cursor) cursor.style.opacity = '0';
+      if (blob) blob.style.opacity = '0';
+    });
+
+    // Show cursor when mouse enters window
+    document.addEventListener('mouseenter', (e) => {
+      mouseX = (e as MouseEvent).clientX;
+      mouseY = (e as MouseEvent).clientY;
+      cursorX = mouseX;
+      cursorY = mouseY;
+      blobX = mouseX;
+      blobY = mouseY;
+      hasEntered = true;
+      if (cursor) cursor.style.opacity = '1';
+      if (blob) blob.style.opacity = '1';
+    });
+
+    // Expand cursor on interactive elements
+    document.addEventListener('mouseover', (e) => {
+      const target = e.target as HTMLElement;
+      if (target.matches('a, button, [data-hover]') || target.closest('a, button, [data-hover]')) {
+        cursor?.classList.add('expanded');
+      }
+    });
+    document.addEventListener('mouseout', (e) => {
+      const target = e.target as HTMLElement;
+      if (target.matches('a, button, [data-hover]') || target.closest('a, button, [data-hover]')) {
+        cursor?.classList.remove('expanded');
+      }
+    });
+
+    // Animate liquid distortion on elements with data-liquid
+    const liquidElements = document.querySelectorAll('[data-liquid]');
+    liquidElements.forEach(el => {
+      (el as HTMLElement).style.filter = 'url(#liquid-filter)';
+
+      el.addEventListener('mousemove', (e) => {
+        const evt = e as MouseEvent;
+        const rect = (el as HTMLElement).getBoundingClientRect();
+        const x = (evt.clientX - rect.left) / rect.width;
+        const y = (evt.clientY - rect.top) / rect.height;
+
+        if (turb) {
+          turb.setAttribute('baseFrequency', `${0.01 + x * 0.03} ${0.01 + y * 0.03}`);
+        }
+        if (displace) {
+          displace.setAttribute('scale', '20');
+        }
+      });
+
+      el.addEventListener('mouseleave', () => {
+        if (displace) {
+          displace.setAttribute('scale', '0');
+        }
+        if (turb) {
+          turb.setAttribute('baseFrequency', '0.01');
+        }
+      });
+    });
+
+    // Smooth cursor follow
+    let animId: number;
+    function animateCursor() {
+      if (hasEntered) {
+        cursorX += (mouseX - cursorX) * 0.15;
+        cursorY += (mouseY - cursorY) * 0.15;
+        blobX += (mouseX - blobX) * 0.05;
+        blobY += (mouseY - blobY) * 0.05;
+
+        if (cursor) {
+          cursor.style.left = cursorX + 'px';
+          cursor.style.top = cursorY + 'px';
+        }
+        if (blob) {
+          blob.style.left = blobX + 'px';
+          blob.style.top = blobY + 'px';
+        }
+      }
+
+      animId = requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Track mouse position on liquid-bg elements for radial glow
+    const liquidBgs = document.querySelectorAll('.liquid-bg');
+    liquidBgs.forEach(el => {
+      el.addEventListener('mousemove', (e) => {
+        const evt = e as MouseEvent;
+        const rect = (el as HTMLElement).getBoundingClientRect();
+        const x = ((evt.clientX - rect.left) / rect.width * 100);
+        const y = ((evt.clientY - rect.top) / rect.height * 100);
+        (el as HTMLElement).style.setProperty('--mouse-x', x + '%');
+        (el as HTMLElement).style.setProperty('--mouse-y', y + '%');
+      });
+    });
+
+    // Hide default cursor from the whole page
+    document.documentElement.style.cursor = 'none';
+  }
+
+  // Run on initial load
+  initLiquidCursor();
+
+  // Re-run after Astro view transitions
+  document.addEventListener('astro:after-swap', initLiquidCursor);
+</script>

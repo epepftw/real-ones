@@ -1,0 +1,15 @@
+---
+interface Props {
+  data: { images: string[] };
+}
+const { data } = Astro.props;
+const images = data?.images || [];
+---
+
+<div class="flex gap-1 h-12 overflow-hidden">
+  {images.map((src: string) => (
+    <div class="border border-white/30 h-full aspect-square flex-shrink-0 overflow-hidden">
+      <img src={src} alt="" class="w-full h-full object-cover grayscale" />
+    </div>
+  ))}
+</div>

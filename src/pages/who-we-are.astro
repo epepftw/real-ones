@@ -1,0 +1,149 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ScrambleText from '../components/ScrambleText.astro';
+import BrutalButton from '../components/BrutalButton.astro';
+import FloatingImages from '../components/FloatingImages.astro';
+---
+
+<BaseLayout title="WHO WE ARE">
+  <!-- Hero -->
+  <section class="relative px-4 md:px-8 py-20 md:py-32 border-b-2 border-white overflow-hidden">
+    <span class="chaotic-text text-[18vw] top-[10%] right-[-5%] rotate-[4deg]">MANIFESTO</span>
+
+    <!-- Scattered images -->
+    <div class="floating-img hidden md:block" style="top: 8%; right: 8%; transform: rotate(-7deg); width: 240px;" data-float-speed="1.4" data-base-rot="-7" data-parallax-dir="1">
+      <img src="/images/random/retro-shot.jpg" alt="" class="floating-img-inner" loading="lazy" />
+      <div class="floating-img-vignette"></div>
+      <div class="floating-img-noise"></div>
+      <div class="floating-img-scanlines"></div>
+    </div>
+    <div class="floating-img hidden lg:block" style="bottom: 12%; right: 28%; transform: rotate(5deg); width: 150px;" data-float-speed="0.8" data-base-rot="5" data-parallax-dir="-1">
+      <img src="/images/random/lookback-shot.jpg" alt="" class="floating-img-inner" loading="lazy" />
+      <div class="floating-img-vignette"></div>
+      <div class="floating-img-noise"></div>
+      <div class="floating-img-scanlines"></div>
+    </div>
+    <div class="floating-img hidden xl:block" style="top: 45%; left: 2%; transform: rotate(11deg); width: 120px;" data-float-speed="2.5" data-base-rot="11" data-parallax-dir="1">
+      <img src="/images/members/jr.jpg" alt="" class="floating-img-inner" loading="lazy" />
+      <div class="floating-img-vignette"></div>
+      <div class="floating-img-noise"></div>
+      <div class="floating-img-scanlines"></div>
+    </div>
+
+    <div data-reveal="right">
+      <ScrambleText
+        text="WHO WE ARE"
+        tag="h1"
+        class="font-display text-[14vw] md:text-[12vw] leading-crush tracking-tight"
+      />
+    </div>
+    <p class="font-mono text-xs text-white/40 mt-4" data-reveal="up" data-reveal-delay="300">THE COLLECTIVE // EST. UNDERGROUND</p>
+  </section>
+
+  <!-- Manifesto -->
+  <section class="px-4 md:px-8 py-12 md:py-20 border-b-2 border-white">
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-12 lg:gap-20 max-w-6xl">
+      <div data-reveal="up">
+        <span class="font-mono text-[10px] text-white/30 tracking-widest">[ORIGIN DOCUMENT]</span>
+        <div class="text-duped mt-4" data-text="OUR STANCE">
+          <h2 class="font-display text-outline text-4xl md:text-5xl">OUR STANCE</h2>
+        </div>
+      </div>
+
+      <div class="space-y-12">
+        {[
+          { num: '01', text: 'WE ARE NOT AN AGENCY. WE ARE NOT A STUDIO. WE ARE A COLLECTIVE OF INDIVIDUALS WHO REFUSE TO SEPARATE THEIR WORK FROM THEIR IDENTITY. EVERYTHING WE PRODUCE IS A DOCUMENT — OF THE CULTURE, OF THE PROCESS, OF THE REFUSAL TO COMPROMISE.' },
+          { num: '02', text: 'THE COLLECTIVE WAS BORN IN BASEMENTS AND WAREHOUSES. IN PRINT SHOPS AND FREIGHT ELEVATORS. WE DIDN\'T START WITH A BUSINESS PLAN — WE STARTED WITH A SHARED REFUSAL TO PARTICIPATE IN THE POLISHED, ALGORITHMIC VERSION OF CREATIVITY THAT THE INDUSTRY DEMANDS.' },
+          { num: '03', text: 'EACH MEMBER OPERATES INDEPENDENTLY BUT BUILDS COLLECTIVELY. FASHION, SOUND, FILM, CODE, INK, LENS — EACH DISCIPLINE FEEDS THE OTHERS. THE RESULT IS NOT "MULTIDISCIPLINARY WORK." THE RESULT IS A UNIFIED DOCUMENT OF REALITY AS WE EXPERIENCE IT.' },
+          { num: '04', text: 'WE DO NOT PITCH. WE DO NOT BRIEF. WE DO NOT ALIGN WITH BRAND VALUES. WE PRODUCE. IF IT RESONATES, IT RESONATES. IF IT DOESN\'T, THE WORK STILL EXISTS. PERMANENCE IS NOT A METRIC — IT\'S A PRINCIPLE.' },
+        ].map((item, i) => (
+          <div data-reveal="up" data-reveal-delay={String(i * 150)}>
+            <span class="font-display text-outline text-5xl md:text-6xl">{item.num}</span>
+            <p class="font-mono text-sm md:text-base leading-relaxed text-white/70 mt-4">
+              {item.text}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Liquid BG strip -->
+  <section class="border-b-2 border-white">
+    <div class="liquid-bg h-[30vh] md:h-[40vh]" data-hover>
+      <img src="/images/bg/white-black-liquid-inked-bg.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
+    </div>
+  </section>
+
+  <!-- Inverted marquee -->
+  <section class="border-b-2 border-white overflow-hidden py-3 bg-white text-black">
+    <div class="marquee-track">
+      {[...Array(8)].map(() => (
+        <span class="font-display text-2xl md:text-3xl whitespace-nowrap mx-8">
+          NO BRIEFS &nbsp;&bull;&nbsp; NO DECKS &nbsp;&bull;&nbsp; NO COMPROMISE &nbsp;&bull;&nbsp; REAL ONES ONLY &nbsp;&bull;&nbsp;
+        </span>
+      ))}
+    </div>
+  </section>
+
+  <!-- Zoom scroll images -->
+  <section class="border-b-2 border-white px-4 md:px-8 py-16 md:py-24">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div data-zoom-scroll="in" class="glitch-img aspect-[4/3] border-2 border-white" data-hover>
+        <img src="/images/random/retro-img-of-jr.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
+        <div class="glitch-scanlines"></div>
+        <div class="glitch-tear"></div>
+      </div>
+      <div data-zoom-scroll="out" class="liquid-bg aspect-[4/3] border-2 border-white overflow-hidden" data-hover>
+        <img src="/images/bg/black-white-dristessed-background.png" alt="" class="w-full h-full object-cover" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Values grid -->
+  <section class="px-4 md:px-8 py-16 md:py-24 border-b-2 border-white">
+    <div data-reveal="up" class="mb-10">
+      <span class="font-mono text-[10px] text-white/30 tracking-widest">[CORE DIRECTIVES]</span>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4" data-reveal="up" data-reveal-stagger>
+      {[
+        { name: 'CREATIVE', desc: 'RAW OUTPUT WITHOUT CREATIVE DIRECTION. THE WORK LEADS. THE COLLECTIVE FOLLOWS.' },
+        { name: 'STRATEGY', desc: 'NO BRIEFS. NO DECKS. STRATEGY IS EMBEDDED IN THE MAKING. THE PROCESS IS THE PLAN.' },
+        { name: 'FABRICATION', desc: 'PHYSICAL BEFORE DIGITAL. HANDS BEFORE SCREENS. EVERY DIGITAL OUTPUT HAS AN ANALOG ORIGIN.' },
+        { name: 'DOCUMENTARY', desc: 'EVERYTHING IS RECORDED. NOTHING IS STAGED. THE ARCHIVE IS THE PRODUCT.' },
+      ].map(cap => (
+        <div class="border-2 border-white p-6 md:p-8 group hover:bg-white hover:text-black transition-none min-h-[220px] flex flex-col justify-between glitch-box" data-hover>
+          <p class="font-mono text-[10px] text-white/40 group-hover:text-black/40 leading-relaxed">
+            {cap.desc}
+          </p>
+          <h3 class="font-display text-3xl md:text-4xl mt-6">{cap.name}</h3>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Scattered images section -->
+  <FloatingImages count={6}>
+    <div class="relative z-10 flex flex-col items-center justify-center min-h-[50vh] px-4 py-16 pointer-events-none [&>*]:pointer-events-auto">
+      <div data-reveal="blur">
+        <p class="font-mono text-[10px] text-white/30 tracking-[0.3em] mb-4 text-center">[THE REAL ONES]</p>
+        <div class="text-duped" data-text="NO FAKES ALLOWED">
+          <h2 class="font-display text-[10vw] md:text-[7vw] leading-[0.85] text-white text-center">NO FAKES ALLOWED</h2>
+        </div>
+      </div>
+    </div>
+  </FloatingImages>
+
+  <!-- CTA -->
+  <section class="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
+    <span class="chaotic-text text-[20vw] top-[15%] left-[-3%] rotate-[-2deg]">JOIN</span>
+    <div class="relative z-10 text-center px-4" data-reveal="blur">
+      <div class="text-duped" data-text="BECOME ONE">
+        <h2 class="font-display text-[12vw] md:text-[8vw] leading-[0.85] text-white">BECOME ONE</h2>
+      </div>
+      <div class="mt-8">
+        <BrutalButton href="/contact" label="SEND INTENT" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ScrambleText from '../../components/ScrambleText.astro';
+import PostRow from '../../components/PostRow.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts')).sort((a, b) =>
+  b.data.date.localeCompare(a.data.date)
+);
+---
+
+<BaseLayout title="BLOG">
+  <!-- Hero -->
+  <section class="relative px-4 md:px-8 py-20 md:py-32 border-b-2 border-white overflow-hidden">
+    <span class="chaotic-text text-[18vw] top-[10%] right-[-8%] rotate-[4deg]">TRANSMISSIONS</span>
+
+    <img src="/images/random/random-img-two-person.jpg" alt="" class="floating-img hidden md:block" style="top: 12%; right: 7%; transform: rotate(-6deg); width: 140px;" loading="lazy" />
+    <img src="/images/random/lookback-shot.jpg" alt="" class="floating-img hidden lg:block" style="bottom: 18%; right: 22%; transform: rotate(5deg); width: 110px;" loading="lazy" />
+
+    <div data-reveal="right">
+      <ScrambleText
+        text="DISPATCHES"
+        tag="h1"
+        class="font-display text-[14vw] md:text-[12vw] leading-crush tracking-tight"
+      />
+    </div>
+    <p class="font-mono text-xs text-white/40 mt-4" data-reveal="up" data-reveal-delay="300">FIELD NOTES // INTERVIEWS // TRANSMISSIONS</p>
+  </section>
+
+  <!-- Posts -->
+  <section class="border-b-2 border-white" data-reveal="up" data-reveal-stagger>
+    {posts.map((post, i) => (
+      <PostRow
+        id={post.id}
+        title={post.data.title}
+        date={post.data.date}
+        category={post.data.category}
+        index={i}
+      />
+    ))}
+  </section>
+</BaseLayout>

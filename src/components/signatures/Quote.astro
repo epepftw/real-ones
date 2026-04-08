@@ -1,0 +1,25 @@
+---
+interface Props {
+  data: { quotes: string[] };
+}
+const { data } = Astro.props;
+const quotes = data?.quotes || ['"..."'];
+---
+
+<div class="h-12 overflow-hidden relative">
+  <div class="quote-scroll">
+    {quotes.map((q: string) => (
+      <p class="font-mono text-[10px] text-white/60 leading-relaxed py-1">"{q}"</p>
+    ))}
+  </div>
+</div>
+
+<style>
+  @keyframes scroll {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50%); }
+  }
+  .quote-scroll {
+    animation: scroll 8s linear infinite;
+  }
+</style>

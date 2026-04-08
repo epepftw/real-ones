@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ScrambleText from '../../components/ScrambleText.astro';
+import BrutalButton from '../../components/BrutalButton.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { title, date, category } = post.data;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={title}>
+  <article class="max-w-4xl mx-auto px-4 md:px-8">
+    <!-- Header -->
+    <header class="py-16 md:py-24 border-b-2 border-white relative overflow-hidden">
+      <span class="chaotic-text text-[12vw] top-[10%] right-[-5%] rotate-[3deg]">DISPATCH</span>
+
+      <div class="relative z-10">
+        <div class="flex flex-wrap items-center gap-4 mb-6" data-reveal="up">
+          <span class="font-mono text-xs text-white/40">[{date}]</span>
+          <span class="font-mono text-[10px] border-2 border-white/30 px-3 py-1">[{category}]</span>
+        </div>
+        <div data-reveal="right" data-reveal-delay="200">
+          <ScrambleText
+            text={title}
+            tag="h1"
+            class="font-display text-4xl md:text-6xl lg:text-7xl leading-crush tracking-tight"
+          />
+        </div>
+      </div>
+    </header>
+
+    <!-- Body -->
+    <div class="py-12 md:py-16 prose-brutal" data-reveal="up" data-reveal-delay="400">
+      <Content />
+    </div>
+
+    <!-- Back -->
+    <div class="py-8 border-t-2 border-white flex items-center justify-between">
+      <BrutalButton href="/blog" label="BACK TO DISPATCHES" />
+      <span class="font-mono text-[10px] text-white/20 hidden md:block">[END OF TRANSMISSION]</span>
+    </div>
+  </article>
+</BaseLayout>
+
+<style is:global>
+  .prose-brutal p {
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+  }
+  .prose-brutal strong {
+    color: #ffffff;
+  }
+  .prose-brutal ul, .prose-brutal ol {
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+    text-transform: uppercase;
+  }
+  .prose-brutal li {
+    margin-bottom: 0.25rem;
+  }
+  .prose-brutal li::marker {
+    color: rgba(255, 255, 255, 0.3);
+  }
+</style>

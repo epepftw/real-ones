@@ -1,0 +1,154 @@
+---
+interface Props {
+  enabled?: boolean;
+}
+const { enabled = true } = Astro.props;
+---
+
+{enabled && (
+<div id="vhs-overlay" class="fixed inset-0 z-50 pointer-events-none overflow-hidden">
+  <!-- Scanlines -->
+  <div class="absolute inset-0" style="background: repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 3px);"></div>
+
+  <!-- Grain layer -->
+  <div class="absolute inset-0 vhs-grain opacity-[0.04]"></div>
+
+  <!-- Tracking glitch lines -->
+  <div class="absolute left-0 w-full h-[1px] bg-white/20 vhs-glitch-1"></div>
+  <div class="absolute left-0 w-full h-[2px] bg-white/10 vhs-glitch-2"></div>
+
+  <!-- Vignette -->
+  <div class="absolute inset-0" style="background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.6) 100%);"></div>
+
+  <!-- Top-left: REC + timestamp -->
+  <div class="absolute top-4 left-4 md:top-6 md:left-6 flex items-center gap-2">
+    <span id="rec-dot" class="inline-block w-2 h-2 bg-rec rounded-none"></span>
+    <span class="font-mono text-rec text-xs md:text-sm">REC</span>
+    <span id="vhs-timestamp" class="font-mono text-white/80 text-[10px] md:text-xs ml-2">2026.04.07  00:00:00</span>
+  </div>
+
+  <!-- Top-right: Battery + SP -->
+  <div class="absolute top-4 right-4 md:top-6 md:right-6 flex flex-col items-end gap-1">
+    <div class="flex items-center gap-0">
+      <div class="border border-white/60 w-6 h-3 flex items-center px-[2px] gap-[1px]">
+        <div class="bg-white/60 h-1.5 w-1"></div>
+        <div class="bg-white/60 h-1.5 w-1"></div>
+        <div class="bg-white/60 h-1.5 w-1"></div>
+      </div>
+      <div class="bg-white/60 w-[2px] h-1.5"></div>
+    </div>
+    <span class="font-mono text-white/60 text-[10px]">SP</span>
+  </div>
+
+  <!-- Bottom-left: Channel -->
+  <div class="absolute bottom-4 left-4 md:bottom-6 md:left-6">
+    <span class="font-mono text-white/50 text-[10px] md:text-xs">REAL ONES // CH 01</span>
+  </div>
+
+  <!-- Bottom-right: Tracking -->
+  <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6 flex items-center gap-2">
+    <span class="font-mono text-white/50 text-[10px] md:text-xs vhs-tracking-text">TRACKING</span>
+    <span class="flex items-center gap-[3px]">
+      <span class="vhs-track-dot" style="animation-delay: 0s;"></span>
+      <span class="vhs-track-dot" style="animation-delay: 0.2s;"></span>
+      <span class="vhs-track-dot" style="animation-delay: 0.4s;"></span>
+      <span class="vhs-track-dot vhs-track-dot--empty" style="animation-delay: 0.6s;"></span>
+    </span>
+  </div>
+</div>
+)}
+
+<style>
+  /* REC dot blink */
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  #rec-dot {
+    animation: blink 1s step-end infinite;
+  }
+
+  /* Grain noise via CSS */
+  @keyframes grain {
+    0%, 100% { transform: translate(0, 0); }
+    10% { transform: translate(-2%, -3%); }
+    20% { transform: translate(3%, 1%); }
+    30% { transform: translate(-1%, 2%); }
+    40% { transform: translate(2%, -2%); }
+    50% { transform: translate(-3%, 3%); }
+    60% { transform: translate(1%, -1%); }
+    70% { transform: translate(-2%, 2%); }
+    80% { transform: translate(3%, -3%); }
+    90% { transform: translate(-1%, 1%); }
+  }
+  .vhs-grain {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    animation: grain 0.5s steps(4) infinite;
+  }
+
+  /* Tracking text glitch */
+  @keyframes tracking-glitch {
+    0%, 85%, 100% { opacity: 0.5; transform: none; }
+    86% { opacity: 1; transform: translateX(-2px) skewX(-5deg); }
+    88% { opacity: 0.3; transform: translateX(3px) skewX(3deg); }
+    90% { opacity: 1; transform: translateX(-1px); }
+    92% { opacity: 0.5; transform: none; }
+  }
+  .vhs-tracking-text {
+    animation: tracking-glitch 4s steps(1) infinite;
+  }
+
+  /* Tracking dots pulse */
+  @keyframes track-dot-pulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.3); }
+  }
+  .vhs-track-dot {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    background: rgba(255,255,255,0.6);
+    animation: track-dot-pulse 1.2s ease-in-out infinite;
+  }
+  .vhs-track-dot--empty {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.3);
+    animation: track-dot-pulse 1.2s ease-in-out infinite reverse;
+  }
+
+  /* Tracking glitch lines */
+  @keyframes glitch1 {
+    0% { top: -2%; }
+    100% { top: 102%; }
+  }
+  @keyframes glitch2 {
+    0% { top: -5%; }
+    100% { top: 105%; }
+  }
+  .vhs-glitch-1 {
+    animation: glitch1 8s linear infinite;
+  }
+  .vhs-glitch-2 {
+    animation: glitch2 6s linear infinite;
+    animation-delay: 3s;
+  }
+</style>
+
+<script>
+  // Live timestamp updater
+  function updateTimestamp() {
+    const el = document.getElementById('vhs-timestamp');
+    if (!el) return;
+    const now = new Date();
+    const y = now.getFullYear();
+    const mo = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    const h = String(now.getHours()).padStart(2, '0');
+    const mi = String(now.getMinutes()).padStart(2, '0');
+    const s = String(now.getSeconds()).padStart(2, '0');
+    el.textContent = `${y}.${mo}.${d}  ${h}:${mi}:${s}`;
+  }
+  updateTimestamp();
+  setInterval(updateTimestamp, 1000);
+</script>

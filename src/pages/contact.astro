@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ScrambleText from '../components/ScrambleText.astro';
+import BrutalButton from '../components/BrutalButton.astro';
+---
+
+<BaseLayout title="CONTACT">
+  <!-- Hero -->
+  <section class="relative px-4 md:px-8 py-20 md:py-32 border-b-2 border-white overflow-hidden">
+    <span class="chaotic-text text-[15vw] top-[15%] right-[-5%] rotate-[3deg]">TRANSMIT</span>
+
+    <div class="floating-img hidden md:block" style="top: 8%; right: 6%; transform: rotate(-5deg); width: 200px;" data-float-speed="1.6" data-base-rot="-5" data-parallax-dir="1">
+      <img src="/images/random/lookback-shot.jpg" alt="" class="floating-img-inner" loading="lazy" />
+      <div class="floating-img-vignette"></div>
+      <div class="floating-img-noise"></div>
+      <div class="floating-img-scanlines"></div>
+    </div>
+    <div class="floating-img hidden lg:block" style="bottom: 15%; right: 28%; transform: rotate(7deg); width: 130px;" data-float-speed="0.5" data-base-rot="7" data-parallax-dir="-1">
+      <img src="/images/random/random-img-two-person.jpg" alt="" class="floating-img-inner" loading="lazy" />
+      <div class="floating-img-vignette"></div>
+      <div class="floating-img-noise"></div>
+      <div class="floating-img-scanlines"></div>
+    </div>
+    <div class="floating-img hidden xl:block" style="top: 40%; left: 3%; transform: rotate(12deg); width: 160px;" data-float-speed="2.3" data-base-rot="12" data-parallax-dir="1">
+      <img src="/images/members/silena.jpg" alt="" class="floating-img-inner" loading="lazy" />
+      <div class="floating-img-vignette"></div>
+      <div class="floating-img-noise"></div>
+      <div class="floating-img-scanlines"></div>
+    </div>
+
+    <div data-reveal="right">
+      <ScrambleText
+        text="SEND INTENT"
+        tag="h1"
+        class="font-display text-[14vw] md:text-[12vw] leading-crush tracking-tight"
+      />
+    </div>
+    <p class="font-mono text-xs text-white/40 mt-4" data-reveal="up" data-reveal-delay="300">[TRANSMISSION // OPEN CHANNEL]</p>
+  </section>
+
+  <section class="grid grid-cols-1 lg:grid-cols-3 border-b-2 border-white">
+    <!-- Form -->
+    <div class="lg:col-span-2 px-4 md:px-8 py-12 md:py-16 border-b-2 lg:border-b-0 lg:border-r-2 border-white">
+      <form action="#" method="POST" class="space-y-10 max-w-xl" data-reveal="up">
+        <div>
+          <label class="font-mono text-xs text-white/50 block mb-3">[01] NAME</label>
+          <input type="text" name="name" required class="w-full bg-transparent border-2 border-white px-4 py-3 font-mono text-sm text-white focus:bg-white/5" />
+        </div>
+        <div>
+          <label class="font-mono text-xs text-white/50 block mb-3">[02] ORIGIN</label>
+          <input type="text" name="origin" class="w-full bg-transparent border-2 border-white px-4 py-3 font-mono text-sm text-white focus:bg-white/5" />
+        </div>
+        <div>
+          <label class="font-mono text-xs text-white/50 block mb-3">[03] INTENT</label>
+          <input type="text" name="intent" required class="w-full bg-transparent border-2 border-white px-4 py-3 font-mono text-sm text-white focus:bg-white/5" />
+        </div>
+        <div>
+          <label class="font-mono text-xs text-white/50 block mb-3">[04] MESSAGE</label>
+          <textarea name="message" rows="6" required class="w-full bg-transparent border-2 border-white px-4 py-3 font-mono text-sm text-white resize-none focus:bg-white/5"></textarea>
+        </div>
+        <BrutalButton label="TRANSMIT" />
+      </form>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="px-4 md:px-8 py-12 md:py-16 space-y-10" data-reveal="left" data-reveal-delay="200">
+      <div>
+        <span class="font-mono text-[10px] text-white/30 block mb-3 tracking-widest">[DIRECT LINE]</span>
+        <p class="font-mono text-sm text-white/70">HQ@REALONES.CO</p>
+        <p class="font-mono text-sm text-white/70 mt-1">@REALONES</p>
+      </div>
+      <div class="border-2 border-white p-6">
+        <p class="font-mono text-[10px] text-white/50 leading-relaxed">
+          RESPONSE WINDOW: 48&ndash;72 HRS. WE READ EVERYTHING. WE REPLY TO REAL ONES.
+        </p>
+      </div>
+      <div>
+        <span class="font-mono text-[10px] text-white/30 block mb-3 tracking-widest">[LOCATION]</span>
+        <p class="font-mono text-xs text-white/50 leading-relaxed">
+          COORDINATES CLASSIFIED.<br/>
+          FIND US IN THE WORK.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

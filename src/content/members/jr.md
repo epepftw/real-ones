@@ -1,0 +1,18 @@
+---
+codename: "JR"
+discipline: "VISIONARY"
+bio: "ENTREPRENEUR PRODIGY. BUILT FROM NOTHING. RUNS THE OPERATION."
+portrait: "/images/members/jr.jpg"
+manifesto: "I DIDN'T WAIT FOR AN INVITATION. I BUILT THE TABLE, SET THE CHAIRS, AND INVITED THE ONES WHO WERE HUNGRY ENOUGH TO SIT DOWN. REAL ONES ISN'T A BRAND — IT'S A MOVEMENT. EVERY DEAL, EVERY PROJECT, EVERY LATE NIGHT IS A BRICK IN SOMETHING BIGGER THAN ANY OF US. THE WORLD DOESN'T HAND YOU EMPIRE. YOU TAKE IT WITH BARE HANDS AND ZERO SLEEP."
+signature: "stats"
+signatureData:
+  stats:
+    - label: "VENTURES LAUNCHED"
+      value: "12"
+    - label: "DEALS CLOSED"
+      value: "∞"
+    - label: "HOURS SLEPT"
+      value: "03"
+    - label: "COMPROMISES MADE"
+      value: "00"
+---

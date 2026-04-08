@@ -1,0 +1,120 @@
+---
+const currentPath = Astro.url.pathname;
+const links = [
+  { href: "/projects", label: "PROJECTS" },
+  { href: "/who-we-are", label: "WHO WE ARE" },
+  { href: "/members", label: "MEMBERS" },
+  { href: "/blog", label: "BLOG" },
+];
+---
+
+<nav
+  class="fixed top-0 left-0 w-full z-40 bg-black/80 backdrop-blur-sm border-b-2 border-white"
+>
+  <div class="flex items-center justify-between px-4 md:px-8 h-14 md:h-16">
+    <a
+      href="/"
+      class="font-display text-xl md:text-2xl tracking-tight text-white hover:bg-white hover:text-black transition-none px-2 -ml-2"
+      data-hover
+    >
+      REAL ONES
+    </a>
+
+    <!-- Desktop nav -->
+    <div class="hidden lg:flex items-center gap-1">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            data-hover
+            class:list={[
+              "font-mono text-sm tracking-wider hover:bg-white hover:text-black transition-none px-3 py-1",
+              currentPath.startsWith(link.href)
+                ? "text-white bg-white/10"
+                : "text-white/70",
+            ]}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <a
+        href="/contact"
+        data-hover
+        class="font-mono text-sm border-2 border-white px-4 py-1.5 text-white hover:bg-white hover:text-black transition-none ml-3"
+      >
+        [SEND INTENT]
+      </a>
+    </div>
+
+    <!-- Mobile menu toggle -->
+    <button
+      id="mobile-menu-btn"
+      data-hover
+      class="lg:hidden font-mono text-sm border-2 border-white px-3 py-1 text-white hover:bg-white hover:text-black transition-none"
+    >
+      [MENU]
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div
+    id="mobile-menu"
+    class="hidden lg:hidden border-t-2 border-white bg-black"
+  >
+    <div class="flex flex-col">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            class="font-mono text-base px-4 py-3 border-b border-white/20 text-white hover:bg-white hover:text-black transition-none"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <a
+        href="/contact"
+        class="font-mono text-base px-4 py-3 text-white hover:bg-white hover:text-black transition-none"
+      >
+        [SEND INTENT]
+      </a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  function initMobileMenu() {
+    const btn = document.getElementById("mobile-menu-btn");
+    const menu = document.getElementById("mobile-menu");
+
+    if (btn && menu) {
+      // Remove any existing listeners by cloning the button
+      const newBtn = btn.cloneNode(true);
+      btn.parentNode?.replaceChild(newBtn, btn);
+
+      // Get fresh references after cloning
+      const freshBtn = document.getElementById("mobile-menu-btn");
+      const freshMenu = document.getElementById("mobile-menu");
+
+      if (freshBtn && freshMenu) {
+        // Ensure menu starts hidden
+        freshMenu.classList.add("hidden");
+        freshBtn.textContent = "[MENU]";
+
+        freshBtn.addEventListener("click", () => {
+          freshMenu.classList.toggle("hidden");
+          freshBtn.textContent = freshMenu.classList.contains("hidden")
+            ? "[MENU]"
+            : "[CLOSE]";
+        });
+      }
+    }
+  }
+
+  // Initialize on page load
+  initMobileMenu();
+
+  // Re-initialize on view transitions
+  document.addEventListener("astro:after-swap", initMobileMenu);
+</script>

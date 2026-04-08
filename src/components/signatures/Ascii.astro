@@ -1,0 +1,9 @@
+---
+interface Props {
+  data: { art: string };
+}
+const { data } = Astro.props;
+const art = data?.art || '[ NO DATA ]';
+---
+
+<pre class="font-mono text-[7px] md:text-[8px] leading-tight text-white/60 whitespace-pre overflow-hidden">{art}</pre>

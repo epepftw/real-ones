@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ScrambleText from '../../components/ScrambleText.astro';
+import MemberCard from '../../components/MemberCard.astro';
+import FloatingImages from '../../components/FloatingImages.astro';
+import { getCollection } from 'astro:content';
+
+const members = await getCollection('members');
+---
+
+<BaseLayout title="MEMBERS">
+  <!-- Hero -->
+  <section class="relative px-4 md:px-8 py-20 md:py-32 border-b-2 border-white overflow-hidden">
+    <span class="chaotic-text text-[16vw] top-[10%] right-[-5%] rotate-[3deg]">COLLECTIVE</span>
+
+    <div class="floating-img hidden md:block" style="top: 8%; right: 4%; transform: rotate(-4deg); width: 220px;" data-float-speed="1.2" data-base-rot="-4" data-parallax-dir="1">
+      <img src="/images/random/retro-shot.jpg" alt="" class="floating-img-inner" loading="lazy" />
+      <div class="floating-img-vignette"></div>
+      <div class="floating-img-noise"></div>
+      <div class="floating-img-scanlines"></div>
+    </div>
+    <div class="floating-img hidden lg:block" style="bottom: 12%; right: 18%; transform: rotate(6deg); width: 160px;" data-float-speed="0.7" data-base-rot="6" data-parallax-dir="-1">
+      <img src="/images/random/retro-img-of-jr.jpg" alt="" class="floating-img-inner" loading="lazy" />
+      <div class="floating-img-vignette"></div>
+      <div class="floating-img-noise"></div>
+      <div class="floating-img-scanlines"></div>
+    </div>
+    <div class="floating-img hidden xl:block" style="top: 50%; left: 3%; transform: rotate(-9deg); width: 130px;" data-float-speed="2.0" data-base-rot="-9" data-parallax-dir="1">
+      <img src="/images/random/lookback-shot.jpg" alt="" class="floating-img-inner" loading="lazy" />
+      <div class="floating-img-vignette"></div>
+      <div class="floating-img-noise"></div>
+      <div class="floating-img-scanlines"></div>
+    </div>
+
+    <div class="flex items-baseline justify-between gap-4" data-reveal="right">
+      <ScrambleText
+        text="ROSTER"
+        tag="h1"
+        class="font-display text-[16vw] md:text-[14vw] leading-crush tracking-tight"
+      />
+      <span class="font-mono text-[10px] text-white/30 hidden md:block">[{members.length} ACTIVE]</span>
+    </div>
+    <p class="font-mono text-xs text-white/40 mt-4" data-reveal="up" data-reveal-delay="300">THE COLLECTIVE // ALL MEMBERS</p>
+  </section>
+
+  <!-- Marquee -->
+  <section class="border-b-2 border-white overflow-hidden py-3 bg-white text-black">
+    <div class="marquee-track" style="animation-duration: 15s;">
+      {[...Array(6)].map(() => (
+        <span class="font-display text-xl md:text-2xl whitespace-nowrap mx-6">
+          {members.map(m => m.data.codename).join(' \u2022 ')} &nbsp;&bull;&nbsp;
+        </span>
+      ))}
+    </div>
+  </section>
+
+  <!-- Members grid -->
+  <section class="px-4 md:px-8 py-12 md:py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0" data-reveal="up" data-reveal-stagger>
+      {members.map((member, i) => (
+        <MemberCard
+          id={member.id}
+          codename={member.data.codename}
+          discipline={member.data.discipline}
+          bio={member.data.bio}
+          portrait={member.data.portrait}
+          signature={member.data.signature}
+          signatureData={member.data.signatureData}
+          index={i}
+        />
+      ))}
+    </div>
+  </section>
+
+  <!-- Scattered gallery -->
+  <FloatingImages count={6}>
+    <div class="relative z-10 flex flex-col items-center justify-center min-h-[50vh] px-4 py-16 pointer-events-none [&>*]:pointer-events-auto">
+      <div data-reveal="scale">
+        <div class="text-duped" data-text="THE ROSTER">
+          <h2 class="font-display text-outline text-[10vw] md:text-[7vw] leading-[0.85] text-center">THE ROSTER</h2>
+        </div>
+      </div>
+    </div>
+  </FloatingImages>
+</BaseLayout>

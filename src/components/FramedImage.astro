@@ -1,0 +1,30 @@
+---
+interface Props {
+  src: string;
+  alt?: string;
+  label?: string;
+  live?: boolean;
+  class?: string;
+}
+const { src, alt = '', label, live = false, class: className = '' } = Astro.props;
+---
+
+<div class:list={['border border-white relative group overflow-hidden hover-distort', className]} data-hover>
+  <img
+    src={src}
+    alt={alt}
+    class="w-full h-full object-cover grayscale"
+    loading="lazy"
+  />
+  {label && (
+    <div class="absolute bottom-0 left-0 right-0 bg-black/80 px-3 py-2 flex items-center justify-between">
+      <span class="font-mono text-[10px] md:text-xs text-white/80">{label}</span>
+      {live && (
+        <span class="flex items-center gap-1.5">
+          <span class="inline-block w-1.5 h-1.5 bg-rec"></span>
+          <span class="font-mono text-[10px] text-rec">LIVE</span>
+        </span>
+      )}
+    </div>
+  )}
+</div>

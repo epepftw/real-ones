@@ -1,0 +1,18 @@
+---
+interface Props {
+  data: { images: string[] };
+}
+const { data } = Astro.props;
+const images = data?.images || [];
+---
+
+<div class="relative h-16 w-full">
+  {images.map((src: string, i: number) => (
+    <div
+      class="absolute border border-white/50 w-10 h-14 overflow-hidden"
+      style={`left: ${i * 14}px; top: ${i * 2}px; transform: rotate(${(i - 1) * 3}deg); z-index: ${i};`}
+    >
+      <img src={src} alt="" class="w-full h-full object-cover grayscale" />
+    </div>
+  ))}
+</div>

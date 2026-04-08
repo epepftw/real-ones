@@ -1,0 +1,74 @@
+---
+import Waveform from './signatures/Waveform.astro';
+import Stack from './signatures/Stack.astro';
+import Quote from './signatures/Quote.astro';
+import Stats from './signatures/Stats.astro';
+import Gallery from './signatures/Gallery.astro';
+import Ascii from './signatures/Ascii.astro';
+
+interface Props {
+  id: string;
+  codename: string;
+  discipline: string;
+  bio: string;
+  portrait: string;
+  signature: string;
+  signatureData: any;
+  index: number;
+}
+const { id, codename, discipline, bio, portrait, signature, signatureData, index } = Astro.props;
+const code = String(index + 1).padStart(2, '0');
+
+const signatureComponents: Record<string, any> = {
+  waveform: Waveform,
+  stack: Stack,
+  quote: Quote,
+  stats: Stats,
+  gallery: Gallery,
+  ascii: Ascii,
+};
+const SignatureComponent = signatureComponents[signature];
+---
+
+<a href={`/members/${id}`} class="block border-2 border-white hover:bg-white hover:text-black transition-none group" data-hover>
+  <!-- Portrait -->
+  <div class="relative aspect-[3/4] member-portrait">
+    <img src={portrait} alt={codename} class="w-full h-full object-cover member-portrait-img" loading="lazy" />
+    <!-- Vignette -->
+    <div class="member-portrait-vignette"></div>
+    <!-- Noise grain -->
+    <div class="member-portrait-noise"></div>
+    <!-- Scanlines -->
+    <div class="member-portrait-scanlines"></div>
+    <!-- Glitch layers -->
+    <div class="glitch-scanlines"></div>
+    <div class="glitch-tear"></div>
+    <!-- Code overlay -->
+    <div class="absolute top-0 left-0 p-3 z-10">
+      <span class="font-display text-outline text-4xl md:text-5xl opacity-50">{code}</span>
+    </div>
+    <div class="absolute top-2 right-2 flex items-center gap-1 bg-black/70 px-2 py-0.5 z-10">
+      <span class="inline-block w-1.5 h-1.5 bg-rec"></span>
+      <span class="font-mono text-[8px] text-rec">REC</span>
+    </div>
+    <!-- Name overlay at bottom -->
+    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 z-10">
+      <h3 class="font-display text-3xl tracking-tight">{codename}</h3>
+    </div>
+  </div>
+
+  <!-- Info -->
+  <div class="p-4 md:p-5 space-y-3 border-t-2 border-white group-hover:border-black">
+    <div class="flex items-baseline justify-between gap-2">
+      <span class="font-mono text-sm md:text-base text-white/50 group-hover:text-black/50">[M_{code}]</span>
+      <span class="font-mono text-xs md:text-sm border-2 border-white/30 group-hover:border-black/30 px-3 py-1">{discipline}</span>
+    </div>
+    <p class="font-mono text-sm md:text-base text-white/60 group-hover:text-black/60 leading-relaxed">{bio}</p>
+
+    {SignatureComponent && (
+      <div class="pt-2 border-t border-white/20 group-hover:border-black/20">
+        <SignatureComponent data={signatureData} />
+      </div>
+    )}
+  </div>
+</a>

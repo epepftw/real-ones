@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ScrambleText from '../components/ScrambleText.astro';
+import FramedImage from '../components/FramedImage.astro';
+import FloatingImages from '../components/FloatingImages.astro';
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('projects');
+---
+
+<BaseLayout title="PROJECTS">
+  <!-- Hero -->
+  <section class="relative px-4 md:px-8 py-20 md:py-32 border-b-2 border-white overflow-hidden">
+    <span class="chaotic-text text-[20vw] top-[10%] right-[-8%] rotate-[5deg]">ARCHIVE</span>
+
+    <div class="floating-img hidden md:block" style="top: 10%; right: 4%; transform: rotate(-6deg); width: 260px;" data-float-speed="1.5" data-base-rot="-6" data-parallax-dir="1">
+      <img src="/images/random/retro-img-of-jr.jpg" alt="" class="floating-img-inner" loading="lazy" />
+      <div class="floating-img-vignette"></div>
+      <div class="floating-img-noise"></div>
+      <div class="floating-img-scanlines"></div>
+    </div>
+    <div class="floating-img hidden lg:block" style="bottom: 15%; right: 22%; transform: rotate(8deg); width: 140px;" data-float-speed="0.6" data-base-rot="8" data-parallax-dir="-1">
+      <img src="/images/random/retro-shot.jpg" alt="" class="floating-img-inner" loading="lazy" />
+      <div class="floating-img-vignette"></div>
+      <div class="floating-img-noise"></div>
+      <div class="floating-img-scanlines"></div>
+    </div>
+    <div class="floating-img hidden xl:block" style="top: 55%; left: 5%; transform: rotate(-10deg); width: 180px;" data-float-speed="2.2" data-base-rot="-10" data-parallax-dir="1">
+      <img src="/images/random/random-img-two-person.jpg" alt="" class="floating-img-inner" loading="lazy" />
+      <div class="floating-img-vignette"></div>
+      <div class="floating-img-noise"></div>
+      <div class="floating-img-scanlines"></div>
+    </div>
+
+    <div data-reveal="right">
+      <ScrambleText
+        text="WORK"
+        tag="h1"
+        class="font-display text-[18vw] md:text-[14vw] leading-crush tracking-tight"
+      />
+    </div>
+    <p class="font-mono text-xs text-white/40 mt-4" data-reveal="up" data-reveal-delay="300">ALL PROJECTS // LIVE + ARCHIVE</p>
+  </section>
+
+  <!-- Liquid BG -->
+  <section class="border-b-2 border-white grid grid-cols-1 md:grid-cols-2">
+    <div class="liquid-bg aspect-[16/9] md:aspect-auto md:min-h-[250px]" data-hover>
+      <img src="/images/bg/black-white-dristessed-background.png" alt="" class="w-full h-full object-cover" loading="lazy" />
+    </div>
+    <div class="liquid-bg aspect-[16/9] md:aspect-auto md:min-h-[250px]" data-hover>
+      <img src="/images/bg/white-black-liquid-inked-bg.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
+    </div>
+  </section>
+
+  <!-- Marquee -->
+  <section class="border-b-2 border-white overflow-hidden py-3">
+    <div class="marquee-track" style="animation-duration: 25s;">
+      {[...Array(8)].map(() => (
+        <span class="font-display text-outline text-xl md:text-2xl whitespace-nowrap mx-6">
+          PROJECTS &nbsp;&bull;&nbsp; DOCUMENTATION &nbsp;&bull;&nbsp; ARCHIVE &nbsp;&bull;&nbsp; LIVE WORK &nbsp;&bull;&nbsp;
+        </span>
+      ))}
+    </div>
+  </section>
+
+  <!-- Zoom scroll strip -->
+  <section class="border-b-2 border-white px-4 md:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div data-zoom-scroll="in" class="glitch-img aspect-square border-2 border-white" data-hover>
+        <img src="/images/random/lookback-shot.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
+        <div class="glitch-scanlines"></div>
+        <div class="glitch-tear"></div>
+      </div>
+      <div data-zoom-scroll="out" class="liquid-bg aspect-square border-2 border-white overflow-hidden" data-hover>
+        <img src="/images/bg/white-black-liquid-inked-bg.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
+      </div>
+      <div data-zoom-scroll="in" class="hover-distort aspect-square border-2 border-white" data-hover>
+        <img src="/images/random/random-img-two-person.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Project grid -->
+  <section class="grid grid-cols-1 md:grid-cols-2" data-reveal="up" data-reveal-stagger>
+    {projects.map((project, i) => (
+      <div class="border-2 border-white group glitch-img" data-hover data-reveal="up" data-reveal-delay={String(i * 100)}>
+        <div class="relative overflow-hidden">
+          <FramedImage
+            src={project.data.cover}
+            label={`${project.data.title} [${project.data.code}]`}
+            live={project.data.status === 'live'}
+            class="aspect-[4/3]"
+          />
+          <div class="glitch-scanlines"></div>
+          <div class="glitch-tear"></div>
+        </div>
+        <div class="p-4 md:p-6 border-t-2 border-white">
+          <div class="flex items-center justify-between gap-4 mb-3">
+            <h2 class="font-display text-2xl md:text-3xl tracking-tight">{project.data.title}</h2>
+            <span class="font-mono text-[10px] border-2 border-white/30 px-2 py-0.5 shrink-0">
+              [{project.data.status === 'live' ? 'ACTIVE' : 'ARCHIVED'}]
+            </span>
+          </div>
+          <p class="font-mono text-[10px] md:text-xs text-white/50 leading-relaxed">{project.data.description}</p>
+        </div>
+      </div>
+    ))}
+  </section>
+</BaseLayout>

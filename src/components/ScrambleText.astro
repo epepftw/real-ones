@@ -1,0 +1,57 @@
+---
+interface Props {
+  text: string;
+  tag?: string;
+  class?: string;
+  scroll?: boolean;
+}
+const { text, tag = 'h1', class: className = '', scroll = false } = Astro.props;
+const Tag = tag as any;
+---
+
+{scroll ? (
+  <Tag class={className} data-scramble-scroll={text}>
+    {text}
+  </Tag>
+) : (
+  <Tag class={className} data-scramble={text}>
+    {text}
+  </Tag>
+)}
+
+<script>
+  function initScramble() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*/_\\|<>';
+    document.querySelectorAll('[data-scramble]').forEach(el => {
+      if ((el as HTMLElement).dataset.scrambleDone) return;
+      (el as HTMLElement).dataset.scrambleDone = '1';
+
+      const target = el.getAttribute('data-scramble') || '';
+      const duration = 1500;
+      const steps = 20;
+      const interval = duration / steps;
+      let step = 0;
+
+      el.textContent = target.split('').map(c =>
+        c === ' ' || c === '\n' ? c : chars[Math.floor(Math.random() * chars.length)]
+      ).join('');
+
+      const timer = setInterval(() => {
+        step++;
+        const progress = step / steps;
+        el.textContent = target.split('').map((c, i) => {
+          if (c === ' ' || c === '\n') return c;
+          if (i / target.length < progress) return c;
+          return chars[Math.floor(Math.random() * chars.length)];
+        }).join('');
+        if (step >= steps) {
+          clearInterval(timer);
+          el.textContent = target;
+        }
+      }, interval);
+    });
+  }
+
+  initScramble();
+  document.addEventListener('astro:after-swap', initScramble);
+</script>

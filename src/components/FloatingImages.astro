@@ -1,0 +1,120 @@
+---
+interface Props {
+  count?: number;
+  class?: string;
+}
+const { count = 8, class: className = '' } = Astro.props;
+
+const images = [
+  { src: '/images/random/retro-shot.jpg', w: 280, h: 370 },
+  { src: '/images/random/lookback-shot.jpg', w: 100, h: 130 },
+  { src: '/images/bg/white-black-liquid-inked-bg.jpg', w: 320, h: 220 },
+  { src: '/images/random/retro-img-of-jr.jpg', w: 120, h: 170 },
+  { src: '/images/random/random-img-two-person.jpg', w: 240, h: 320 },
+  { src: '/images/bg/black-white-dristessed-background.png', w: 110, h: 75 },
+  { src: '/images/members/silena.jpg', w: 260, h: 350 },
+  { src: '/images/members/jr.jpg', w: 90, h: 120 },
+  { src: '/images/random/retro-img-of-jr.jpg', w: 200, h: 140 },
+  { src: '/images/random/random-img-two-person.jpg', w: 300, h: 220 },
+];
+
+// Deterministic pseudo-random positions — kept within safe bounds
+const positions = [
+  { top: '5%', left: '3%', rot: -8 },
+  { top: '10%', left: '60%', rot: 5 },
+  { top: '35%', left: '70%', rot: -3 },
+  { top: '55%', left: '8%', rot: 7 },
+  { top: '42%', left: '40%', rot: -12 },
+  { top: '68%', left: '62%', rot: 4 },
+  { top: '22%', left: '25%', rot: -6 },
+  { top: '75%', left: '18%', rot: 9 },
+  { top: '15%', left: '75%', rot: -4 },
+  { top: '60%', left: '48%', rot: 11 },
+];
+
+// Randomized parallax speeds per image - some fast, some slow
+const parallaxSpeeds = [1.8, 0.4, 2.5, 0.7, 1.2, 3.0, 0.5, 2.0, 1.5, 0.3];
+
+const selected = images.slice(0, count);
+---
+
+<div class:list={['scatter-zone', className]} data-floating-zone>
+  {selected.map((img, i) => {
+    const pos = positions[i % positions.length];
+    const speed = parallaxSpeeds[i % parallaxSpeeds.length];
+    return (
+      <div
+        class="floating-img"
+        style={`top:${pos.top}; left:${pos.left}; transform: rotate(${pos.rot}deg); width: ${img.w}px;`}
+        data-float-speed={speed}
+        data-base-rot={pos.rot}
+        data-parallax-dir={i % 2 === 0 ? '1' : '-1'}
+      >
+        <img
+          src={img.src}
+          alt=""
+          width={img.w}
+          height={img.h}
+          class="floating-img-inner"
+          loading="lazy"
+        />
+        <div class="floating-img-vignette"></div>
+        <div class="floating-img-noise"></div>
+        <div class="floating-img-scanlines"></div>
+      </div>
+    );
+  })}
+  <slot />
+</div>
+
+<script>
+  function initFloatingImages() {
+    const zones = document.querySelectorAll('[data-floating-zone]');
+
+    zones.forEach(zone => {
+      const imgs = zone.querySelectorAll('.floating-img') as NodeListOf<HTMLElement>;
+
+      // Mouse parallax
+      zone.addEventListener('mousemove', (e) => {
+        const evt = e as MouseEvent;
+        const rect = (zone as HTMLElement).getBoundingClientRect();
+        const x = (evt.clientX - rect.left) / rect.width - 0.5;
+        const y = (evt.clientY - rect.top) / rect.height - 0.5;
+
+        imgs.forEach((img) => {
+          const speed = parseFloat(img.dataset.floatSpeed || '1');
+          const baseRot = parseInt(img.dataset.baseRot || '0');
+          const moveX = x * 50 * speed;
+          const moveY = y * 35 * speed;
+          const extraRot = x * 3 * speed;
+
+          img.style.transform = `rotate(${baseRot + extraRot}deg) translate(${moveX}px, ${moveY}px)`;
+        });
+      });
+
+      // Scroll parallax - each image drifts at its own speed
+      const handleScroll = () => {
+        const rect = (zone as HTMLElement).getBoundingClientRect();
+        const scrollProgress = -rect.top / window.innerHeight;
+
+        imgs.forEach((img) => {
+          const speed = parseFloat(img.dataset.floatSpeed || '1');
+          const dir = parseInt(img.dataset.parallaxDir || '1');
+          const baseRot = parseInt(img.dataset.baseRot || '0');
+          const scrollY = scrollProgress * 80 * speed * dir;
+          const scrollX = scrollProgress * 15 * speed * -dir;
+          const scrollRot = scrollProgress * 4 * speed * dir;
+
+          img.style.transform = `rotate(${baseRot + scrollRot}deg) translate(${scrollX}px, ${scrollY}px)`;
+        });
+      };
+
+      window.addEventListener('scroll', handleScroll, { passive: true });
+    });
+  }
+
+  // Run on initial load
+  initFloatingImages();
+  // Re-run after Astro page transitions
+  document.addEventListener('astro:after-swap', initFloatingImages);
+</script>

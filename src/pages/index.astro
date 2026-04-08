@@ -1,0 +1,587 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ScrambleText from "../components/ScrambleText.astro";
+import BrutalButton from "../components/BrutalButton.astro";
+import FloatingImages from "../components/FloatingImages.astro";
+---
+
+<BaseLayout title="HOME">
+  <!-- ===== HERO ===== -->
+  <section
+    class="relative min-h-screen flex flex-col justify-center px-4 md:px-8 py-20 border-b-2 border-white overflow-hidden"
+  >
+    <!-- Subtle background accents -->
+    <span class="chaotic-text text-[20vw] top-[5%] left-[-5%] rotate-[-4deg]"
+      >REAL</span
+    >
+    <span class="chaotic-text text-[15vw] top-[30%] right-[-10%] rotate-[6deg]"
+      >ONES</span
+    >
+    <span
+      class="chaotic-text text-[8vw] bottom-[20%] right-[15%] rotate-[-10deg]"
+      >UNDERGROUND</span
+    >
+
+    <!-- Main hero text with scramble -->
+    <div class="relative z-10">
+      <div class="text-duped" data-text="STAY TRUE">
+        <ScrambleText
+          text="STAY TRUE"
+          tag="h1"
+          class="font-display text-outline-thick text-[16vw] md:text-[14vw] leading-[0.8] tracking-tight"
+        />
+      </div>
+      <div class="text-duped mt-2" data-text="TO THE CULTURE.">
+        <ScrambleText
+          text="TO THE CULTURE."
+          tag="h1"
+          class="font-display text-[16vw] md:text-[14vw] leading-[0.8] tracking-tight text-white"
+        />
+      </div>
+    </div>
+
+    <div
+      class="relative z-10 mt-8 flex items-center gap-6"
+      data-reveal="up"
+      data-reveal-delay="600"
+    >
+      <p class="font-mono text-sm md:text-base text-white/50">
+        A SNEAK N PEAK COLLECTIVE
+      </p>
+      <div class="hidden md:block h-[1px] w-32 bg-white/20"></div>
+      <span class="hidden md:inline font-mono text-[10px] text-white/30"
+        >EST. UNDERGROUND</span
+      >
+    </div>
+
+    <!-- Floating images in hero -->
+    <img
+      src="/images/random/random-img-two-person.jpg"
+      alt=""
+      class="floating-img hidden md:block"
+      style="top: 15%; right: 8%; transform: rotate(-5deg); width: 300px;"
+      loading="lazy"
+    />
+    <img
+      src="/images/random/lookback-shot.jpg"
+      alt=""
+      class="floating-img hidden md:block"
+      style="bottom: 20%; right: 25%; transform: rotate(7deg); width: 130px;"
+      loading="lazy"
+    />
+    <img
+      src="/images/random/retro-img-of-jr.jpg"
+      alt=""
+      class="floating-img hidden lg:block"
+      style="top: 40%; left: 60%; transform: rotate(-3deg); width: 110px;"
+      loading="lazy"
+    />
+  </section>
+
+  <!-- ===== MARQUEE STRIP ===== -->
+  <section
+    class="border-b-2 border-white overflow-hidden py-4 bg-white text-black"
+  >
+    <div class="marquee-track">
+      {
+        [...Array(10)].map(() => (
+          <span class="font-display text-2xl md:text-4xl whitespace-nowrap mx-8">
+            UNCOMPROMISED &nbsp;&bull;&nbsp; NO TRENDS &nbsp;&bull;&nbsp; RAW
+            DOCUMENTATION &nbsp;&bull;&nbsp; REAL ONES ONLY &nbsp;&bull;&nbsp;
+          </span>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ===== BRUTALIST IMAGE GRID ===== -->
+  <section class="border-b-2 border-white">
+    <div
+      class="border-b-2 border-white px-4 md:px-8 py-6 overflow-hidden"
+      data-reveal="right"
+    >
+      <div class="text-duped" data-text="WINTER COLLECTION">
+        <h2
+          class="font-display text-outline text-[10vw] md:text-[8vw] leading-[0.85] tracking-tight"
+        >
+          WINTER COLLECTION
+        </h2>
+      </div>
+    </div>
+
+    <div
+      class="grid grid-cols-2 md:grid-cols-4 auto-rows-[250px] md:auto-rows-[300px]"
+      data-reveal="up"
+      data-reveal-stagger
+    >
+      <div
+        class="border-2 border-white relative group glitch-img md:row-span-2"
+        data-hover
+      >
+        <img
+          src="/images/members/silena.jpg"
+          alt=""
+          class="w-full h-full object-cover"
+          loading="lazy"
+        />
+        <div class="glitch-scanlines"></div>
+        <div class="glitch-tear"></div>
+        <div
+          class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent z-10"
+        >
+          <span class="font-display text-outline text-3xl md:text-4xl"
+            >OBJECT 004</span
+          >
+        </div>
+      </div>
+      <div
+        class="border-2 border-white relative group hover-distort"
+        data-hover
+      >
+        <img
+          src="/images/random/retro-img-of-jr.jpg"
+          alt=""
+          class="w-full h-full object-cover"
+          loading="lazy"
+        />
+        <div class="absolute bottom-3 left-3 z-10">
+          <span class="font-display text-lg text-outline">RETRO 06</span>
+        </div>
+      </div>
+      <div class="border-2 border-white relative group glitch-img" data-hover>
+        <img
+          src="/images/random/retro-shot.jpg"
+          alt=""
+          class="w-full h-full object-cover"
+          loading="lazy"
+        />
+        <div class="glitch-scanlines"></div>
+        <div class="glitch-tear"></div>
+        <div class="absolute bottom-3 left-3 z-10">
+          <span class="font-display text-lg text-outline">RETRO 07</span>
+        </div>
+      </div>
+      <div
+        class="border-2 border-white relative group hover-distort md:row-span-2"
+        data-hover
+      >
+        <img
+          src="/images/random/random-img-two-person.jpg"
+          alt=""
+          class="w-full h-full object-cover"
+          loading="lazy"
+        />
+        <div class="absolute bottom-3 right-3 z-10">
+          <span class="font-display text-xl text-outline">ARCHIVE 02</span>
+        </div>
+      </div>
+      <div
+        class="border-2 border-white relative group overflow-hidden col-span-2 distort-section"
+        data-liquid
+      >
+        <img
+          src="/images/bg/white-black-liquid-inked-bg.jpg"
+          alt=""
+          class="w-full h-full object-cover"
+          loading="lazy"
+        />
+        <div class="absolute inset-0 flex items-end p-6 z-10">
+          <div class="text-duped" data-text="EXPERIMENTAL FORMS">
+            <span
+              class="font-display text-outline text-[6vw] md:text-[4vw] leading-[0.85]"
+              >EXPERIMENTAL FORMS</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LIQUID BG STRIP ===== -->
+  <section class="border-b-2 border-white grid grid-cols-1 md:grid-cols-2">
+    <div
+      class="liquid-bg aspect-[16/9] md:aspect-auto md:min-h-[300px]"
+      data-hover
+    >
+      <img
+        src="/images/bg/black-white-dristessed-background.png"
+        alt=""
+        class="w-full h-full object-cover"
+        loading="lazy"
+      />
+    </div>
+    <div
+      class="liquid-bg aspect-[16/9] md:aspect-auto md:min-h-[300px]"
+      data-hover
+    >
+      <img
+        src="/images/bg/white-black-liquid-inked-bg.jpg"
+        alt=""
+        class="w-full h-full object-cover"
+        loading="lazy"
+      />
+    </div>
+  </section>
+
+  <!-- ===== WE DEFINE THE VOID ===== -->
+  <section
+    class="relative min-h-[80vh] border-b-2 border-white overflow-hidden flex items-center justify-center"
+  >
+    <span class="chaotic-text text-[22vw] top-[10%] left-[-5%] rotate-[3deg]"
+      >DEFINE</span
+    >
+    <span
+      class="chaotic-text text-[18vw] bottom-[10%] right-[-5%] rotate-[-5deg]"
+      >VOID</span
+    >
+
+    <!-- Floating images -->
+    <img
+      src="/images/random/retro-shot.jpg"
+      alt=""
+      class="floating-img"
+      style="top: 10%; left: 15%; transform: rotate(-6deg); width: 150px;"
+      loading="lazy"
+    />
+    <img
+      src="/images/random/random-img-two-person.jpg"
+      alt=""
+      class="floating-img"
+      style="top: 50%; right: 10%; transform: rotate(4deg); width: 180px;"
+      loading="lazy"
+    />
+    <img
+      src="/images/random/lookback-shot.jpg"
+      alt=""
+      class="floating-img hidden md:block"
+      style="bottom: 15%; left: 40%; transform: rotate(-9deg); width: 140px;"
+      loading="lazy"
+    />
+    <img
+      src="/images/random/retro-img-of-jr.jpg"
+      alt=""
+      class="floating-img hidden md:block"
+      style="top: 30%; right: 35%; transform: rotate(8deg); width: 120px;"
+      loading="lazy"
+    />
+
+    <!-- Center statement -->
+    <div class="relative z-10 text-center px-4">
+      <div data-reveal="blur">
+        <div class="text-duped inline-block" data-text="WE DEFINE">
+          <h2
+            class="font-display text-[12vw] md:text-[10vw] leading-[0.8] text-outline-thick"
+          >
+            WE DEFINE
+          </h2>
+        </div>
+      </div>
+      <div data-reveal="blur" data-reveal-delay="200">
+        <div class="text-duped inline-block" data-text="THE VOID">
+          <h2
+            class="font-display text-[12vw] md:text-[10vw] leading-[0.8] text-white"
+          >
+            THE VOID
+          </h2>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== INVERTED STATEMENT STRIP ===== -->
+  <section class="bg-white text-black border-b-2 border-white">
+    <div class="px-4 md:px-8 py-12 md:py-20">
+      <div class="max-w-5xl" data-reveal="up">
+        <h2
+          class="font-display text-[10vw] md:text-[7vw] leading-[0.85] tracking-tight text-black mb-6"
+        >
+          THE MACHINE IS OPERATIONAL.
+        </h2>
+        <p
+          class="font-mono text-xs md:text-sm text-black/60 leading-relaxed max-w-2xl mb-8"
+          data-reveal="up"
+          data-reveal-delay="200"
+        >
+          REAL ONES IS A COLLECTIVE OF CREATORS, BUILDERS, AND DOCUMENTATION
+          SPECIALISTS. NO FLUFF. NO TRENDS. JUST PURE DOCUMENTATION OF THE WORLD
+          AS IT IS.
+        </p>
+        <div data-reveal="up" data-reveal-delay="400">
+          <a
+            href="/contact"
+            data-hover
+            class="inline-block font-mono text-xs md:text-sm border-2 border-black px-8 py-3 text-black uppercase tracking-wider hover:bg-black hover:text-white transition-none"
+          >
+            [ENQUIRY]
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STACKING SCROLL GALLERY ===== -->
+  <section class="border-b-2 border-white px-4 md:px-8 py-8">
+    <div class="mb-6" data-reveal="up">
+      <span class="font-mono text-[10px] text-white/30 tracking-widest"
+        >[SCROLL // STACK]</span
+      >
+    </div>
+    <div data-scroll-stack class="space-y-6 pb-[20vh]">
+      <div data-stack-item class="border-2 border-white overflow-hidden">
+        <div class="liquid-bg aspect-[16/7]" data-hover>
+          <img
+            src="/images/bg/black-white-dristessed-background.png"
+            alt=""
+            class="w-full h-full object-cover"
+            loading="lazy"
+          />
+        </div>
+      </div>
+      <div data-stack-item class="border-2 border-white overflow-hidden">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-0">
+          <div
+            class="aspect-[4/3] overflow-hidden border-r-2 border-white hover-distort"
+            data-hover
+          >
+            <img
+              src="/images/random/retro-shot.jpg"
+              alt=""
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </div>
+          <div
+            class="aspect-[4/3] overflow-hidden border-r-2 border-white hidden md:block glitch-img"
+            data-hover
+          >
+            <img
+              src="/images/random/lookback-shot.jpg"
+              alt=""
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+            <div class="glitch-scanlines"></div>
+            <div class="glitch-tear"></div>
+          </div>
+          <div class="aspect-[4/3] overflow-hidden hover-distort" data-hover>
+            <img
+              src="/images/random/retro-img-of-jr.jpg"
+              alt=""
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+      <div data-stack-item class="border-2 border-white overflow-hidden">
+        <div class="liquid-bg aspect-[16/7]" data-hover>
+          <img
+            src="/images/bg/white-black-liquid-inked-bg.jpg"
+            alt=""
+            class="w-full h-full object-cover"
+            loading="lazy"
+          />
+        </div>
+      </div>
+      <div
+        data-stack-item
+        class="border-2 border-white overflow-hidden max-h-[70vh]"
+      >
+        <div class="grid grid-cols-2 gap-0">
+          <div
+            class="aspect-video overflow-hidden border-r-2 border-white glitch-img"
+            data-hover
+          >
+            <img
+              src="/images/random/random-img-two-person.jpg"
+              alt=""
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+            <div class="glitch-scanlines"></div>
+            <div class="glitch-tear"></div>
+          </div>
+          <div
+            class="aspect-video overflow-hidden relative hover-distort"
+            data-hover
+          >
+            <img
+              src="/images/random/lookback-shot.jpg"
+              alt=""
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+            <div
+              class="absolute inset-0 flex items-end p-4 bg-gradient-to-t from-black/80 to-transparent z-10"
+            >
+              <span class="font-display text-outline text-2xl md:text-3xl"
+                >REAL ONES</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SCATTERED GALLERY SECTION ===== -->
+  <FloatingImages count={8}>
+    <div
+      class="relative z-10 flex flex-col items-center justify-center min-h-[80vh] px-4 py-20 pointer-events-none [&>*]:pointer-events-auto"
+    >
+      <p
+        class="font-mono text-[10px] text-white/30 tracking-[0.5em] mb-6"
+        data-reveal="up"
+      >
+        ARCHIVE // 2024-2026
+      </p>
+      <div data-reveal="scale">
+        <div class="text-duped" data-text="RAW ARCHIVE">
+          <h2
+            class="font-display text-outline text-[12vw] md:text-[9vw] leading-[0.85] text-center"
+          >
+            RAW ARCHIVE
+          </h2>
+        </div>
+      </div>
+      <p
+        class="font-mono text-xs text-white/40 mt-6 max-w-md text-center leading-relaxed"
+        data-reveal="up"
+        data-reveal-delay="300"
+      >
+        FRAGMENTS OF WORK. UNEDITED. UNFILTERED. A LIVING DOCUMENT OF EVERYTHING
+        WE'VE TOUCHED.
+      </p>
+      <div class="mt-8" data-reveal="up" data-reveal-delay="500">
+        <BrutalButton href="/projects" label="EXPLORE" />
+      </div>
+    </div>
+  </FloatingImages>
+
+  <!-- ===== VERTICAL SPLIT SECTION ===== -->
+  <section
+    class="border-t-2 border-b-2 border-white grid grid-cols-1 md:grid-cols-2 min-h-[70vh]"
+  >
+    <div
+      class="border-b-2 md:border-b-0 md:border-r-2 border-white relative overflow-hidden flex items-center justify-center p-8 md:p-16"
+    >
+      <span
+        class="vertical-text font-display text-outline text-[8vw] md:text-[4vw] absolute left-4 top-1/2 -translate-y-1/2 opacity-20"
+        >COLLECTIVE</span
+      >
+
+      <div data-reveal="right">
+        <h3 class="font-mono text-[10px] text-white/40 mb-4 tracking-widest">
+          [ABOUT // OVERVIEW]
+        </h3>
+        <h2 class="font-display text-4xl md:text-6xl tracking-tight mb-6">
+          WHO WE ARE
+        </h2>
+        <p
+          class="font-mono text-xs text-white/50 leading-relaxed mb-8 max-w-sm"
+        >
+          A COLLECTIVE OF PRODIGIES ACROSS FASHION, DESIGN, ART, MUSIC,
+          PHOTOGRAPHY, AND CODE. WE DOCUMENT THE UNCOMPROMISED. WE BUILD WITHOUT
+          PERMISSION.
+        </p>
+        <BrutalButton href="/who-we-are" label="READ MORE" />
+      </div>
+    </div>
+
+    <div class="relative overflow-hidden">
+      <div class="grid grid-cols-2 h-full" data-reveal="up" data-reveal-stagger>
+        {
+          [
+            { code: "CRE", name: "CREATIVE" },
+            { code: "STR", name: "STRATEGY" },
+            { code: "FAB", name: "FABRICATION" },
+            { code: "DOC", name: "DOCUMENTARY" },
+          ].map((cap) => (
+            <div
+              class="border-2 border-white p-6 flex flex-col justify-between min-h-[200px] group hover:bg-white hover:text-black transition-none glitch-box"
+              data-hover
+            >
+              <span class="font-mono text-[10px] text-white/30 group-hover:text-black/30 block">
+                [{cap.code}]
+              </span>
+              <span class="font-display text-2xl md:text-3xl">{cap.name}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NUMBERS / STATS STRIP ===== -->
+  <section class="border-b-2 border-white px-4 md:px-8 py-12 md:py-16">
+    <div
+      class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4"
+      data-reveal="up"
+      data-reveal-stagger
+    >
+      {
+        [
+          { num: "47", label: "PROJECTS" },
+          { num: "03", label: "MEMBERS" },
+          { num: "∞", label: "VISION" },
+          { num: "00", label: "COMPROMISES" },
+        ].map((stat) => (
+          <div class="text-center md:text-left">
+            <span
+              class="font-display text-outline text-[15vw] md:text-[8vw] leading-none"
+              data-count-up={stat.num}
+            >
+              {stat.num}
+            </span>
+            <p class="font-mono text-xs text-white/50 mt-2">{stat.label}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ===== BOTTOM MARQUEE ===== -->
+  <section class="border-b-2 border-white overflow-hidden py-3">
+    <div class="marquee-track" style="animation-direction: reverse;">
+      {
+        [...Array(10)].map(() => (
+          <span class="font-display text-outline text-xl md:text-3xl whitespace-nowrap mx-6">
+            REAL ONES &nbsp;&bull;&nbsp; UNCOMPROMISED &nbsp;&bull;&nbsp; CREATE
+            &nbsp;&bull;&nbsp; DOCUMENT &nbsp;&bull;&nbsp;
+          </span>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ===== FINAL CTA ===== -->
+  <section
+    class="relative min-h-[60vh] flex items-center justify-center overflow-hidden"
+  >
+    <span class="chaotic-text text-[25vw] top-[10%] left-[-5%] rotate-[-3deg]"
+      >CONTACT</span
+    >
+
+    <div class="relative z-10 text-center px-4" data-reveal="blur">
+      <p class="font-mono text-[10px] text-white/30 tracking-[0.3em] mb-4">
+        [TRANSMISSION // OPEN]
+      </p>
+      <div class="text-duped" data-text="SEND INTENT">
+        <h2
+          class="font-display text-[14vw] md:text-[10vw] leading-[0.85] text-white glitch-hover"
+        >
+          SEND INTENT
+        </h2>
+      </div>
+      <div class="mt-8" data-reveal="up" data-reveal-delay="400">
+        <a
+          href="/contact"
+          data-hover
+          class="inline-block font-mono text-sm border-2 border-white px-10 py-4 text-white hover:bg-white hover:text-black transition-none tracking-widest"
+        >
+          [OPEN CHANNEL]
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
